@@ -1,15 +1,36 @@
-apiVersion: extensions/v1beta1
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: web-ingress
+#   #annotations:
+#   #  nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
+# spec:
+#   rules:
+#   - host: mywebserver.internal
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: websrvc
+#           servicePort: 8080
+
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: web-ingress
-  #annotations:
-  #  nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+      name: web-ingress
 spec:
   rules:
-  - host: mywebserver.internal
+  - host: mysite.local
     http:
       paths:
-      - path: /
+      - pathType: Prefix
+        path: "/"
         backend:
-          serviceName: websrvc
-          servicePort: 8080
+          service:
+            name: websrvc
+            port:
+              number: 8080

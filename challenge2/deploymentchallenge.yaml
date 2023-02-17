@@ -24,7 +24,7 @@ spec:
         image: ubuntu:latest
         resources:
           limits:
-            memory: "500m"
+            memory: "128m"
             cpu: "500m"
         ports:
           - containerPort: 8080

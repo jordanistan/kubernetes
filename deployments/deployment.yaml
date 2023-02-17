@@ -1,11 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  mydeployment
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+  creationTimestamp: '2023-02-15T05:28:45Z'
+  generation: 1
   labels:
-    name:  mydeployment
+    name: mydeployment
+  name: mydeployment
+  namespace: default
+    # resourceVersion: '28751'
+  uid: 1be3f920-5beb-4e64-81ad-747ab7f799d8
 spec:
+  progressDeadlineSeconds: 600
   replicas: 5
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       server: nginx
@@ -16,15 +25,27 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      creationTimestamp: null
       labels:
         server: nginx
     spec:
       containers:
-      - name: nginxcontainer
-        image: nginx:latest
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        ports:
-          - containerPort: 80
+        - image: nginx:latest
+          imagePullPolicy: Always
+          name: nginxcontainer
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128
+            requests:
+              memory: 128
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
