@@ -2,3 +2,5 @@ Flask==2.2.5
 Flask-PyMongo==2.3.0
 bleach==5.0.1
 ptvsd==4.3.2 # Required for debugging.
+jinja2>=3.1.3 # not directly required, pinned by Snyk to avoid a vulnerability
+werkzeug>=2.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
